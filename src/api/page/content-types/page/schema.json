@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "films",
+  "collectionName": "pages",
   "info": {
-    "singularName": "film",
-    "pluralName": "films",
-    "displayName": "film",
+    "singularName": "page",
+    "pluralName": "pages",
+    "displayName": "Page",
     "description": ""
   },
   "options": {
@@ -16,16 +16,29 @@
     }
   },
   "attributes": {
-    "tittle": {
+    "title": {
       "type": "string",
+      "required": true,
+      "unique": true,
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
       }
     },
-    "director": {
+    "slug": {
       "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
+    },
+    "blocks": {
+      "type": "dynamiczone",
+      "components": [
+        "blocks.hero"
+      ],
       "pluginOptions": {
         "i18n": {
           "localized": true
