@@ -482,6 +482,50 @@ export interface PluginUploadFolder extends Schema.CollectionType {
   };
 }
 
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<{
+        min: 1;
+        max: 50;
+      }>;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -633,43 +677,34 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
+export interface ApiCategoryCategory extends Schema.CollectionType {
+  collectionName: 'categories';
   info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
+    singularName: 'category';
+    pluralName: 'categories';
+    displayName: 'category';
   };
   options: {
     draftAndPublish: false;
   };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
   attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<{
-        min: 1;
-        max: 50;
-      }>;
-    code: Attribute.String & Attribute.Unique;
+    name: Attribute.String & Attribute.Required;
+    slug: Attribute.UID<'api::category.category', 'name'>;
+    films: Attribute.Relation<
+      'api::category.category',
+      'oneToMany',
+      'api::film.film'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
+      'api::category.category',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
+      'api::category.category',
       'oneToOne',
       'admin::user'
     > &
@@ -694,13 +729,32 @@ export interface ApiFilmFilm extends Schema.CollectionType {
     };
   };
   attributes: {
-    tittle: Attribute.String &
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    slug: Attribute.UID<'api::film.film', 'title'> &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
-    director: Attribute.String &
+    image: Attribute.Media &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    category: Attribute.Relation<
+      'api::film.film',
+      'manyToOne',
+      'api::category.category'
+    >;
+    content: Attribute.RichText &
+      Attribute.Required &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -739,7 +793,7 @@ export interface ApiGlobalGlobal extends Schema.SingleType {
     };
   };
   attributes: {
-    navigation: Attribute.Component<'global.navigation', true> &
+    navigation: Attribute.Component<'global.navigation'> &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -774,7 +828,7 @@ export interface ApiPagePage extends Schema.CollectionType {
   info: {
     singularName: 'page';
     pluralName: 'pages';
-    displayName: 'Page';
+    displayName: 'page';
     description: '';
   };
   options: {
@@ -834,10 +888,11 @@ declare module '@strapi/types' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
+      'api::category.category': ApiCategoryCategory;
       'api::film.film': ApiFilmFilm;
       'api::global.global': ApiGlobalGlobal;
       'api::page.page': ApiPagePage;

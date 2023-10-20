@@ -13,6 +13,16 @@ export interface BlocksHero extends Schema.Component {
   };
 }
 
+export interface BlocksRelatedFilms extends Schema.Component {
+  collectionName: 'components_blocks_related_films';
+  info: {
+    displayName: 'relatedFilms';
+  };
+  attributes: {
+    header: Attribute.Component<'shared.header'>;
+  };
+}
+
 export interface GlobalNavigation extends Schema.Component {
   collectionName: 'components_global_navigations';
   info: {
@@ -62,6 +72,7 @@ declare module '@strapi/types' {
   export module Shared {
     export interface Components {
       'blocks.hero': BlocksHero;
+      'blocks.related-films': BlocksRelatedFilms;
       'global.navigation': GlobalNavigation;
       'shared.card': SharedCard;
       'shared.header': SharedHeader;

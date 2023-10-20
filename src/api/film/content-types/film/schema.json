@@ -16,21 +16,53 @@
     }
   },
   "attributes": {
-    "tittle": {
+    "title": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
       "type": "string",
+      "required": true
+    },
+    "slug": {
       "pluginOptions": {
         "i18n": {
           "localized": true
+        }
+      },
+      "type": "uid",
+      "targetField": "title"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
         }
       }
     },
-    "director": {
-      "type": "string",
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "films"
+    },
+    "content": {
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
-      }
+      },
+      "type": "richtext",
+      "required": true
     }
   }
 }
