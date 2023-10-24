@@ -49,12 +49,6 @@
         }
       }
     },
-    "category": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::category.category",
-      "inversedBy": "films"
-    },
     "content": {
       "pluginOptions": {
         "i18n": {
@@ -63,6 +57,12 @@
       },
       "type": "richtext",
       "required": true
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::category.category",
+      "inversedBy": "films"
     }
   }
 }

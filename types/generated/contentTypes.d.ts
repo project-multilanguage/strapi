@@ -683,6 +683,7 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
     singularName: 'category';
     pluralName: 'categories';
     displayName: 'category';
+    description: '';
   };
   options: {
     draftAndPublish: false;
@@ -692,7 +693,7 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
     slug: Attribute.UID<'api::category.category', 'name'>;
     films: Attribute.Relation<
       'api::category.category',
-      'oneToMany',
+      'manyToMany',
       'api::film.film'
     >;
     createdAt: Attribute.DateTime;
@@ -748,11 +749,6 @@ export interface ApiFilmFilm extends Schema.CollectionType {
           localized: false;
         };
       }>;
-    category: Attribute.Relation<
-      'api::film.film',
-      'manyToOne',
-      'api::category.category'
-    >;
     content: Attribute.RichText &
       Attribute.Required &
       Attribute.SetPluginOptions<{
@@ -760,6 +756,11 @@ export interface ApiFilmFilm extends Schema.CollectionType {
           localized: true;
         };
       }>;
+    categories: Attribute.Relation<
+      'api::film.film',
+      'manyToMany',
+      'api::category.category'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
