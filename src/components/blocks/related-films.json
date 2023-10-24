@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_blocks_related_films",
+  "info": {
+    "displayName": "relatedFilms"
+  },
+  "options": {},
+  "attributes": {
+    "header": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.header"
+    }
+  }
+}
